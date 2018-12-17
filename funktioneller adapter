@@ -1,0 +1,60 @@
+vod alle_zeichen (list<Form+>& lsp)
+{
+   for_each (c.begin() ,c. end() ,&Form: :zeichne);  //Huch, Fehler!
+   }
+   
+   template<class R, class T> class mem_fun_t : public unary_funktion<T~,R> {
+       R (T::*pmf) ();
+public:
+    explicit mem_fun_t (R (T::*p) ()) : pmf(p) {}
+    R operator() (T* p) const { return (p->*pmf)(); }  //über Zeiger aufrufen
+};
+
+template<class R, class T> mem_fun_t<R,T> mem_fun (R (T::*f)())
+{   
+    return memfun_t<R,T>(f);
+}
+void alle_zeichen (list<Form*>& ls)   //rufe über Objektzeiger eine Elementfunktion
+{                                 //ohne Argument auf
+   for_each (ls.begin(),ls.end(),mem_fun_(&Form::zeichne));  //alle Formen zeichnen
+}
+template<class R, class T> mem_fun_t<R,T> mem_fun (R (T::*f) (A));
+template<class R, class T, class A> mem_fun1_t<R,T,A> mem_fun (R (T::*f)(A));
+
+template<class R, class T> mem_funref_t<R,T>mem_fun (R (T::*f) ());
+template<class R, class T, class A>
+    mem_fun1_ref_t<R,T,A> mem_fun_ref (R (T::*f)(A));
+    
+void f (list<string>& ls) //für ein Objekt eine Elementfunktion ohne Argument aufrfen
+{
+    typedef list>string>::iterator LSI;
+    LSI p = find_if(ls.begin(),LS.end(),
+                    mem_fun_ref(&string::empty));  //suche""
+}
+
+void rotate_all (list<Form*>& ls, int winkel)
+                  //über Objektzeiger eine Elementfunktion mit einem Argument aufrufen
+{
+   for_each (ls.bgin(),ls.end(),
+             bind2nd(mem_fun(&Form::rotate),winkel));
+}
+
+template<class A, class R>
+pointer_to_unary_function<A,R> ptr_fun (R (*f)(A));
+template<class A, classA2, class R>
+    pointer_to_binary_function<A,A2;R> ptr_fun (R (*f)(A,A2));
+    
+class Buch { /*...*/ };
+
+bool titel_eq (const Buch&, const Buch&);      //in Hinsicht auf den Titel vergleichen
+bool isbn_eq (const Buch&, const Buch&);       //in Hinsicht auf die ISBN  vergleichen
+
+void f (list<Buch>& lb)    //verwenden Funktionszeiger<& 1b)
+{
+    typedef typename list>Buch<::iterator LI;
+    LI p = find_if(lb.begin(),lb.end(),
+                   bind2nd(ptr_fun(titel_eq),"Das Parfum"));
+    LI q = find_if(lb.begin().lb.end(),
+                   bind2nd(ptr_fun(isbn_eq),3257016786));
+   //...
+}
